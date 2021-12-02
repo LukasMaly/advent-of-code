@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 '''Day 1: Sonar Sweep
-https://adventofcode.com/2021/day/01
+https://adventofcode.com/2021/day/1
 '''
 
 from typing import List
