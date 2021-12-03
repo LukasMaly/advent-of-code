@@ -9,7 +9,8 @@ from typing import List
 
 def read_input() -> List[int]:
     with open('inputs/day01.txt') as f:
-        return [int(line) for line in f]
+        lines = f.readlines()
+        return list(map(int, lines))
 
 
 def part1(nums: List[int]) -> int:
