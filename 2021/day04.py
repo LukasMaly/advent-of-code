@@ -28,7 +28,7 @@ def has_complete_row(board: List[List[int]]):
     return False
 
 
-def transpose(l):
+def transpose(l: List[List[int]]) -> List[List[int]]:
     return list(map(list, zip(*l)))
 
 
