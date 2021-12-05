@@ -5,23 +5,21 @@ https://adventofcode.com/2021/day/1
 '''
 
 from typing import List
+from utils import BasePuzzle
 
 
-def read_input() -> List[int]:
-    with open('inputs/day01.txt') as f:
-        lines = f.readlines()
-        return list(map(int, lines))
+class Puzzle(BasePuzzle):
+    def __init__(self) -> None:
+        super().__init__()
 
+    def part1(self, input: List[str]) -> int:
+        nums = list(map(int, input))
+        return sum(b > a for a, b in zip(nums, nums[1:]))
 
-def part1(nums: List[int]) -> int:
-    return sum(b > a for a, b in zip(nums, nums[1:]))
-
-
-def part2(nums: List[int]) -> int:
-    return sum(b > a for a, b in zip(nums, nums[3:]))
+    def part2(self, input: List[str]) -> int:
+        nums = list(map(int, input))
+        return sum(b > a for a, b in zip(nums, nums[3:]))
 
 
 if __name__ == '__main__':
-    nums = read_input()
-    print(part1(nums))
-    print(part2(nums))
+    Puzzle().run()

@@ -1,0 +1,1 @@
+from .basepuzzle import BasePuzzle
