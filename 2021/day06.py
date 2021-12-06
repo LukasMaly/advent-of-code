@@ -4,7 +4,6 @@
 https://adventofcode.com/2021/day/6
 '''
 
-from typing import List
 from utils import BasePuzzle
 
 
@@ -12,7 +11,7 @@ class Puzzle(BasePuzzle):
     def __init__(self) -> None:
         super().__init__()
 
-    def simulate_lanternfish(self, fish: List[int], days: int):
+    def simulate_lanternfish(self, fish: list[int], days: int):
         zero_pointer = 0
         seven = 0
         eight = 0
@@ -26,17 +25,17 @@ class Puzzle(BasePuzzle):
             seven, eight = eight, new_fish
         return sum(fish + [seven, eight])
 
-    def parse_input(self, input: List[str]) -> List[int]:
+    def parse_input(self, input: list[str]) -> list[int]:
         fish = [0] * 7
         for f in map(int, input[0].split(',')):
             fish[f] += 1
         return fish
 
-    def part1(self, input: List[str]) -> int:
+    def part1(self, input: list[str]) -> int:
         fish = self.parse_input(input)
         return self.simulate_lanternfish(fish, 80)
 
-    def part2(self, input: List[str]) -> int:
+    def part2(self, input: list[str]) -> int:
         fish = self.parse_input(input)
         return self.simulate_lanternfish(fish, 256)
 

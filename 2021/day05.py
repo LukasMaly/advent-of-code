@@ -4,7 +4,6 @@
 https://adventofcode.com/2021/day/5
 '''
 
-from typing import List, Tuple
 from utils import BasePuzzle
 
 
@@ -14,21 +13,21 @@ class Puzzle(BasePuzzle):
     def __init__(self) -> None:
         super().__init__()
 
-    def part1(self, input: List[str]) -> int:
+    def part1(self, input: list[str]) -> int:
         starts, ends = self.parse_input(input)
         diagram = [[0] * self.DIAGRAM_SIZE for i in range(self.DIAGRAM_SIZE)]
         for start, end in zip(starts, ends):
             self.draw_line(diagram, start, end, draw_diagonal=False)
         return self.count_overlaps(diagram)
 
-    def part2(self, input: List[str]) -> int:
+    def part2(self, input: list[str]) -> int:
         starts, ends = self.parse_input(input)
         diagram = [[0] * self.DIAGRAM_SIZE for i in range(self.DIAGRAM_SIZE)]
         for start, end in zip(starts, ends):
             self.draw_line(diagram, start, end, draw_diagonal=True)
         return self.count_overlaps(diagram)
 
-    def parse_input(self, input: List[str]) -> Tuple[List[Tuple[int, int]], List[Tuple[int, int]]]:
+    def parse_input(self, input: list[str]) -> tuple[list[tuple[int, int]], list[tuple[int, int]]]:
         starts, ends = [], []
         for line in input:
             start, end = line.split(' -> ')
@@ -38,7 +37,7 @@ class Puzzle(BasePuzzle):
             ends.append(end)
         return starts, ends
 
-    def draw_line(self, diagram: List[List[int]], start: Tuple[int, int], end: Tuple[int, int], draw_diagonal: bool = False):
+    def draw_line(self, diagram: list[list[int]], start: tuple[int, int], end: tuple[int, int], draw_diagonal: bool = False):
         x1, y1 = start
         x2, y2 = end
         if x1 == x2:
@@ -62,7 +61,7 @@ class Puzzle(BasePuzzle):
             for x, y in points:
                 diagram[y][x] += 1
     
-    def count_overlaps(self, diagram: List[List[int]]) -> int:
+    def count_overlaps(self, diagram: list[list[int]]) -> int:
         overlaps = 0
         for y in range(self.DIAGRAM_SIZE):
             for x in range(self.DIAGRAM_SIZE):

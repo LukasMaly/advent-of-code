@@ -1,6 +1,5 @@
 import importlib
 import os
-from typing import Dict, List
 
 import yaml
 
@@ -18,7 +17,7 @@ class BasePuzzle:
         basename = os.path.splitext(os.path.basename(file))[0]
         return os.path.join(dirname, 'inputs', basename + '.txt')
 
-    def __read_input(self, file) -> List[str]:
+    def __read_input(self, file) -> list[str]:
         with open(file) as f:
             return f.read().splitlines()
 
@@ -28,16 +27,16 @@ class BasePuzzle:
         basename = os.path.splitext(os.path.basename(file))[0]
         return os.path.join(dirname, 'examples', basename + '.yaml')
 
-    def __read_example(self, file) -> Dict:
+    def __read_example(self, file) -> dict:
         with open(file) as f:
             data = yaml.safe_load(f)
             data['input'] = data['input'].splitlines()
             return data
 
-    def part1(self, input: List[str]) -> int:
+    def part1(self, input: list[str]) -> int:
         raise NotImplementedError()
 
-    def part2(self, input: List[str]) -> int:
+    def part2(self, input: list[str]) -> int:
         raise NotImplementedError()
 
     @timeit

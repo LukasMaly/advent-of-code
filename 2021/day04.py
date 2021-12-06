@@ -4,7 +4,6 @@
 https://adventofcode.com/2021/day/4
 '''
 
-from typing import List, Tuple, Union
 from utils import BasePuzzle
 
 
@@ -14,7 +13,7 @@ class Puzzle(BasePuzzle):
     def __init__(self) -> None:
         super().__init__()
 
-    def part1(self, input: List[str]) -> int:
+    def part1(self, input: list[str]) -> int:
         drawn_numbers, boards = self.parse_input(input)
         for drawn_number in drawn_numbers:
             boards = self.remove_drawn_number(drawn_number, boards)
@@ -23,7 +22,7 @@ class Puzzle(BasePuzzle):
                     return self.board_sum(board) * drawn_number
         return 0
 
-    def part2(self, input: List[str]) -> int:
+    def part2(self, input: list[str]) -> int:
         drawn_numbers, boards = self.parse_input(input)
         for drawn_number in drawn_numbers:
             boards = self.remove_drawn_number(drawn_number, boards)
@@ -34,7 +33,7 @@ class Puzzle(BasePuzzle):
                 boards = [board for board in boards if not self.is_winning(board)]
         return 0
 
-    def parse_input(self, input: List[str]) -> Tuple[List[int], List[List[List[int]]]]:
+    def parse_input(self, input: list[str]) -> tuple[list[int], list[list[list[int]]]]:
         drawn_numbers = list(map(int, input[0].split(',')))
         lines = input[1:]
         del lines[::6]
@@ -42,16 +41,16 @@ class Puzzle(BasePuzzle):
         boards = [list(lines[(self.BOARD_SIZE * i):(self.BOARD_SIZE * i + self.BOARD_SIZE)]) for i in range(len(lines) // self.BOARD_SIZE)]
         return drawn_numbers, boards
 
-    def has_complete_row(self, board: List[List[Union[int, None]]]) -> bool:
+    def has_complete_row(self, board: list[list[int | None]]) -> bool:
         for line in board:
             if sum([x is None for x in line]) == self.BOARD_SIZE:
                 return True
         return False
 
-    def transpose(self, l: List[List[Union[int, None]]]) -> List[List[Union[int, None]]]:
+    def transpose(self, l: list[list[int | None]]) -> list[list[int | None]]:
         return list(map(list, zip(*l)))
 
-    def is_winning(self, board: List[List[Union[int, None]]]) -> bool:
+    def is_winning(self, board: list[list[int | None]]) -> bool:
         if self.has_complete_row(board):
             return True
         board = self.transpose(board)
@@ -59,10 +58,10 @@ class Puzzle(BasePuzzle):
             return True
         return False
 
-    def board_sum(self, board: List[List[Union[int, None]]]) -> int:
+    def board_sum(self, board: list[list[int | None]]) -> int:
         return sum([sum(filter(None, line)) for line in board])
 
-    def remove_drawn_number(self, drawn_number: int, boards: List[List[List[Union[int, None]]]]) -> List[List[List[Union[int, None]]]]:
+    def remove_drawn_number(self, drawn_number: int, boards: list[list[list[int | None]]]) -> list[list[list[int | None]]]:
         for b, board in enumerate(boards):
             for y, line in enumerate(board):
                 for x, number in enumerate(line):
