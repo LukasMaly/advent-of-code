@@ -3,10 +3,11 @@ import os
 
 import yaml
 
-from .timeit import timeit
+from utils.timeit import timeit
 
 
 class BasePuzzle:
+
     def __init__(self) -> None:
         self.input = self.__read_input(self.__get_input_file())
         self.example = self.__read_example(self.__get_example_file())

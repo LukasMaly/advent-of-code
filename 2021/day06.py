@@ -4,12 +4,10 @@
 https://adventofcode.com/2021/day/6
 '''
 
-from utils import BasePuzzle
+from utils.basepuzzle import BasePuzzle
 
 
 class Puzzle(BasePuzzle):
-    def __init__(self) -> None:
-        super().__init__()
 
     def simulate_lanternfish(self, fish: list[int], days: int):
         zero_pointer = 0

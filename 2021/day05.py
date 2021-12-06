@@ -4,14 +4,12 @@
 https://adventofcode.com/2021/day/5
 '''
 
-from utils import BasePuzzle
+from utils.basepuzzle import BasePuzzle
 
 
 class Puzzle(BasePuzzle):
-    DIAGRAM_SIZE = 1000
 
-    def __init__(self) -> None:
-        super().__init__()
+    DIAGRAM_SIZE = 1000
 
     def part1(self, input: list[str]) -> int:
         starts, ends = self.parse_input(input)

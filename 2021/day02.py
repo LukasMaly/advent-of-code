@@ -4,12 +4,10 @@
 https://adventofcode.com/2021/day/2
 '''
 
-from utils import BasePuzzle
+from utils.basepuzzle import BasePuzzle
 
 
 class Puzzle(BasePuzzle):
-    def __init__(self) -> None:
-        super().__init__()
 
     def part1(self, input: list[str]) -> int:
         commands, units = self.parse_input(input)

@@ -4,14 +4,12 @@
 https://adventofcode.com/2021/day/4
 '''
 
-from utils import BasePuzzle
+from utils.basepuzzle import BasePuzzle
 
 
 class Puzzle(BasePuzzle):
+    
     BOARD_SIZE = 5
-
-    def __init__(self) -> None:
-        super().__init__()
 
     def part1(self, input: list[str]) -> int:
         drawn_numbers, boards = self.parse_input(input)
