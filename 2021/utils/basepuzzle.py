@@ -4,6 +4,8 @@ from typing import Dict, List
 
 import yaml
 
+from .timeit import timeit
+
 
 class BasePuzzle:
     def __init__(self) -> None:
@@ -38,12 +40,24 @@ class BasePuzzle:
     def part2(self, input: List[str]) -> int:
         raise NotImplementedError()
 
+    @timeit
+    def run_part1(self) -> int:
+        return self.part1(self.input[:])
+
+    @timeit
+    def run_part2(self) -> int:
+        return self.part2(self.input[:])
+
+    @timeit
     def test_part1(self):
         assert self.part1(self.example['input']) == self.example['answer1']
 
+    @timeit
     def test_part2(self):
         assert self.part2(self.example['input']) == self.example['answer2']
 
     def run(self):
-        print(self.part1(self.input[:]))
-        print(self.part2(self.input[:]))
+        answer1 = self.run_part1()
+        print(f"Part one answer: {answer1}")
+        answer2 = self.run_part2()
+        print(f"Part two answer: {answer2}")
