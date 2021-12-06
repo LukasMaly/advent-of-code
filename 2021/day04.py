@@ -4,6 +4,7 @@
 https://adventofcode.com/2021/day/4
 '''
 
+from time import time
 from utils.basepuzzle import BasePuzzle
 
 
@@ -13,22 +14,19 @@ class Puzzle(BasePuzzle):
 
     def part1(self, input: list[str]) -> int:
         drawn_numbers, boards = self.parse_input(input)
-        for drawn_number in drawn_numbers:
-            boards = self.remove_drawn_number(drawn_number, boards)
-            for board in boards:
-                if self.is_winning(board):
-                    return self.board_sum(board) * drawn_number
+        for i in range(len(drawn_numbers)):
+            if i >= 4:
+                for board in boards:
+                    if self.is_winning(board, drawn_numbers[:i + 1]):
+                        return self.board_sum(board, drawn_numbers[:i + 1]) * drawn_numbers[i]
         return 0
 
     def part2(self, input: list[str]) -> int:
         drawn_numbers, boards = self.parse_input(input)
-        for drawn_number in drawn_numbers:
-            boards = self.remove_drawn_number(drawn_number, boards)
-            if len(boards) == 1:
-                if self.is_winning(boards[0]):
-                    return self.board_sum(boards[0]) * drawn_number
-            else:
-                boards = [board for board in boards if not self.is_winning(board)]
+        for i in range(len(drawn_numbers), -1, -1):
+            for board in boards:
+                if not self.is_winning(board, drawn_numbers[:i]):
+                    return self.board_sum(board, drawn_numbers[:i + 1]) * drawn_numbers[i]
         return 0
 
     def parse_input(self, input: list[str]) -> tuple[list[int], list[list[list[int]]]]:
@@ -39,33 +37,22 @@ class Puzzle(BasePuzzle):
         boards = [list(lines[(self.BOARD_SIZE * i):(self.BOARD_SIZE * i + self.BOARD_SIZE)]) for i in range(len(lines) // self.BOARD_SIZE)]
         return drawn_numbers, boards
 
-    def has_complete_row(self, board: list[list[int | None]]) -> bool:
+    def has_complete_row(self, board: list[list[int]], drawn_numbers) -> bool:
         for line in board:
-            if sum([x is None for x in line]) == self.BOARD_SIZE:
+            if all(number in drawn_numbers for number in line):
                 return True
         return False
 
-    def transpose(self, l: list[list[int | None]]) -> list[list[int | None]]:
+    def transpose(self, l: list[list[int]]) -> list[list[int]]:
         return list(map(list, zip(*l)))
 
-    def is_winning(self, board: list[list[int | None]]) -> bool:
-        if self.has_complete_row(board):
+    def is_winning(self, board: list[list[int]], drawn_numbers: list[int]) -> bool:
+        if self.has_complete_row(board, drawn_numbers):
             return True
-        board = self.transpose(board)
-        if self.has_complete_row(board):
-            return True
-        return False
+        return self.has_complete_row(self.transpose(board), drawn_numbers)
 
-    def board_sum(self, board: list[list[int | None]]) -> int:
-        return sum([sum(filter(None, line)) for line in board])
-
-    def remove_drawn_number(self, drawn_number: int, boards: list[list[list[int | None]]]) -> list[list[list[int | None]]]:
-        for b, board in enumerate(boards):
-            for y, line in enumerate(board):
-                for x, number in enumerate(line):
-                    if number == drawn_number:
-                        boards[b][y][x] = None
-        return boards                   
+    def board_sum(self, board: list[list[int]], drawn_numbers: list[int]) -> int:
+        return sum([sum([number for number in line if number not in drawn_numbers]) for line in board])
 
 
 if __name__ == '__main__':
