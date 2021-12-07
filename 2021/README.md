@@ -6,3 +6,4 @@
 * [Day 4: Giant Squid](day04.py)
 * [Day 5: Hydrothermal Venture](day05.py)
 * [Day 6: Lanternfish](day06.py)
+* [Day 7: The Treachery of Whales](day07.py)
