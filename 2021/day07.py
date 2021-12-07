@@ -4,6 +4,9 @@
 https://adventofcode.com/2021/day/7
 '''
 
+import math
+import statistics
+
 from utils.basepuzzle import BasePuzzle
 
 
@@ -11,24 +14,17 @@ class Puzzle(BasePuzzle):
 
     def part1(self, input: list[str]) -> int:
         nums = list(map(int, input[0].split(',')))
-        minimum = min(nums)
-        maximum = max(nums)
-        fuels = [sum([self.penalty1(num, pos) for num in nums]) for pos in range(minimum, maximum + 1)]
-        return min(fuels)
+        median = int(statistics.median(nums))
+        return sum([abs(num - median) for num in nums])
 
     def part2(self, input: list[str]) -> int:
         nums = list(map(int, input[0].split(',')))
-        minimum = min(nums)
-        maximum = max(nums)
-        fuels = [sum([self.penalty2(num, pos) for num in nums]) for pos in range(minimum, maximum + 1)]
-        return min(fuels)
-
-    def penalty1(self, num1: int, num2: int) -> int:
-        return abs(num1 - num2)
-
-    def penalty2(self, num1: int, num2: int) -> int:
-        diff = abs(num1 - num2)
-        return int(diff * (diff + 1) / 2)
+        mean = statistics.mean(nums)
+        mean_floor = math.floor(mean)
+        mean_ceil = math.ceil(mean)
+        fuel_mean_floor = int(sum([abs(num - mean_floor) * (abs(num - mean_floor) + 1) / 2 for num in nums]))
+        fuel_mean_ceil = int(sum([abs(num - mean_ceil) * (abs(num - mean_ceil) + 1) / 2 for num in nums]))
+        return min(fuel_mean_floor, fuel_mean_ceil)
 
 
 if __name__ == '__main__':
