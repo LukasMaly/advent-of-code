@@ -18,31 +18,26 @@ class Puzzle(BasePuzzle):
         return gamma_rate * epsilon_rate
 
     def part2(self, input: list[str]) -> int:
-        oxygen_generator_rating = int(''.join(self.reduce_list(input, self.get_most_common)), 2)
-        co2_scrubber_rating = int(''.join(self.reduce_list(input, self.get_least_common)), 2)
+        oxygen_generator_rating = int(''.join(self.reduce_list(input[:], self.get_most_common)), 2)
+        co2_scrubber_rating = int(''.join(self.reduce_list(input[:], self.get_least_common)), 2)
         return oxygen_generator_rating * co2_scrubber_rating
 
-    def get_ones_count(self, lines: list[str]) -> list[int]:
-        ones_count = [0] * len(lines[0])
-        for line in lines:
-            for i, character in enumerate(line):
-                ones_count[i] += int(character)
-        return ones_count
+    def get_ones_count(self, input: list[str]) -> list[int]:
+        return [int(sum(line[i] == '1' for line in input)) for i in range(len(input[0]))]
 
     def get_most_common(self, ones_count: list[int], length: int) -> list[str]:
         return ['1' if occurence >= length / 2 else '0' for occurence in ones_count]
 
     def get_least_common(self, ones_count: list[int], length: int) -> list[str]:
-        return['0' if occurence >= length / 2 else '1' for occurence in ones_count]
+        return ['0' if occurence >= length / 2 else '1' for occurence in ones_count]
 
-    def reduce_list(self, lines: list[str], commonnes_function) -> str:
-        reduced_list = lines.copy()
+    def reduce_list(self, lines: list[str], common_func) -> str:
         for i in range(len(lines[0])):
-            occurences_of_one = self.get_ones_count(reduced_list)
-            commonness = commonnes_function(occurences_of_one, len(reduced_list))
-            reduced_list = [line for line in reduced_list if line[i] == commonness[i]]
-            if len(reduced_list) == 1:
-                return reduced_list[0]
+            occurences_of_one = self.get_ones_count(lines)
+            common = common_func(occurences_of_one, len(lines))
+            lines = [line for line in lines if line[i] == common[i]]
+            if len(lines) == 1:
+                return lines[0]
         return ''
 
 
