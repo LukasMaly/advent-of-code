@@ -9,6 +9,20 @@ from utils.basepuzzle import BasePuzzle
 
 class Puzzle(BasePuzzle):
 
+    def part1(self, input: list[str]) -> int:
+        fish = self.parse_input(input)
+        return self.simulate_lanternfish(fish, 80)
+
+    def part2(self, input: list[str]) -> int:
+        fish = self.parse_input(input)
+        return self.simulate_lanternfish(fish, 256)
+
+    def parse_input(self, input: list[str]) -> list[int]:
+        fish = [0] * 7
+        for f in map(int, input[0].split(',')):
+            fish[f] += 1
+        return fish
+
     def simulate_lanternfish(self, fish: list[int], days: int):
         zero_pointer = 0
         seven = 0
@@ -22,20 +36,6 @@ class Puzzle(BasePuzzle):
             fish[six_pointer] += seven
             seven, eight = eight, new_fish
         return sum(fish + [seven, eight])
-
-    def parse_input(self, input: list[str]) -> list[int]:
-        fish = [0] * 7
-        for f in map(int, input[0].split(',')):
-            fish[f] += 1
-        return fish
-
-    def part1(self, input: list[str]) -> int:
-        fish = self.parse_input(input)
-        return self.simulate_lanternfish(fish, 80)
-
-    def part2(self, input: list[str]) -> int:
-        fish = self.parse_input(input)
-        return self.simulate_lanternfish(fish, 256)
 
 
 if __name__ == '__main__':
