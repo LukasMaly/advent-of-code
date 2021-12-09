@@ -7,3 +7,4 @@
 * [Day 5: Hydrothermal Venture](05.py)
 * [Day 6: Lanternfish](06.py)
 * [Day 7: The Treachery of Whales](07.py)
+* [Day 8: Seven Segment Search](08.py)
