@@ -9,3 +9,4 @@
 * [Day 7: The Treachery of Whales](07.py)
 * [Day 8: Seven Segment Search](08.py)
 * [Day 9: Smoke Basin](09.py)
+* [Day 10: Syntax Scoring](10.py)
