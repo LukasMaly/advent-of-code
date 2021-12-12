@@ -11,3 +11,4 @@
 * [Day 9: Smoke Basin](09.py)
 * [Day 10: Syntax Scoring](10.py)
 * [Day 11: Dumbo Octopus](11.py)
+* [Day 12: Passage Pathing](12.py)
