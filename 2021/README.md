@@ -12,3 +12,4 @@
 * [Day 10: Syntax Scoring](10.py)
 * [Day 11: Dumbo Octopus](11.py)
 * [Day 12: Passage Pathing](12.py)
+* [Day 13: Transparent Origami](13.py)
