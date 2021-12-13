@@ -9,7 +9,7 @@ from utils.timeit import timeit
 class BasePuzzle:
 
     def __init__(self) -> None:
-        self.input = self.__read_input(self.__get_input_file())
+        self.lines = self.__read_input(self.__get_input_file())
         self.example = self.__read_example(self.__get_example_file())
 
     def __get_input_file(self) -> str:
@@ -34,19 +34,19 @@ class BasePuzzle:
             data['input'] = data['input'].splitlines()
             return data
 
-    def part1(self, input: list[str]) -> int:
+    def part1(self, lines: list[str]) -> int:
         raise NotImplementedError()
 
-    def part2(self, input: list[str]) -> int:
+    def part2(self, lines: list[str]) -> int:
         raise NotImplementedError()
 
     @timeit
     def run_part1(self) -> int:
-        return self.part1(self.input[:])
+        return self.part1(self.lines[:])
 
     @timeit
     def run_part2(self) -> int:
-        return self.part2(self.input[:])
+        return self.part2(self.lines[:])
 
     @timeit
     def test_part1(self):

@@ -9,17 +9,17 @@ from utils.basepuzzle import BasePuzzle
 
 class Puzzle(BasePuzzle):
 
-    def part1(self, input: list[str]) -> int:
-        fish = self.parse_input(input)
+    def part1(self, lines: list[str]) -> int:
+        fish = self.parse_input(lines)
         return self.simulate_lanternfish(fish, 80)
 
-    def part2(self, input: list[str]) -> int:
-        fish = self.parse_input(input)
+    def part2(self, lines: list[str]) -> int:
+        fish = self.parse_input(lines)
         return self.simulate_lanternfish(fish, 256)
 
-    def parse_input(self, input: list[str]) -> list[int]:
+    def parse_input(self, lines: list[str]) -> list[int]:
         fish = [0] * 7
-        for f in map(int, input[0].split(',')):
+        for f in map(int, lines[0].split(',')):
             fish[f] += 1
         return fish
 

@@ -11,24 +11,24 @@ class Puzzle(BasePuzzle):
 
     ADJACENTS = [(1, 0), (1, -1), (0, -1), (-1, -1), (-1, 0), (-1, 1), (0, 1), (1, 1)]
 
-    def part1(self, input: list[str], steps=100) -> int:
+    def part1(self, lines: list[str], steps=100) -> int:
         flashes = 0
-        energies = self.parse_input(input)
+        energies = self.parse_input(lines)
         for step in range(steps):
             flashes += self.perform_step(energies)
         return flashes
 
-    def part2(self, input: list[str]) -> int:
-        energies = self.parse_input(input)
+    def part2(self, lines: list[str]) -> int:
+        energies = self.parse_input(lines)
         steps = 0
         while True:
             steps += 1
             if self.perform_step(energies) == len(energies[0]) * len(energies):
                 return steps
 
-    def parse_input(self, input: list[str]) -> list[list[int]]:
+    def parse_input(self, lines: list[str]) -> list[list[int]]:
         energies = []
-        for line in input:
+        for line in lines:
             energies.append(list(map(int, [x for x in line])))
         return energies
 

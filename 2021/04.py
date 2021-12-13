@@ -12,8 +12,8 @@ class Puzzle(BasePuzzle):
     
     BOARD_SIZE = 5
 
-    def part1(self, input: list[str]) -> int:
-        drawn_numbers, boards = self.parse_input(input)
+    def part1(self, lines: list[str]) -> int:
+        drawn_numbers, boards = self.parse_input(lines)
         for i in range(len(drawn_numbers)):
             if i >= 4:
                 for board in boards:
@@ -21,20 +21,20 @@ class Puzzle(BasePuzzle):
                         return self.board_sum(board, drawn_numbers[:i + 1]) * drawn_numbers[i]
         return 0
 
-    def part2(self, input: list[str]) -> int:
-        drawn_numbers, boards = self.parse_input(input)
+    def part2(self, lines: list[str]) -> int:
+        drawn_numbers, boards = self.parse_input(lines)
         for i in range(len(drawn_numbers), -1, -1):
             for board in boards:
                 if not self.is_winning(board, drawn_numbers[:i]):
                     return self.board_sum(board, drawn_numbers[:i + 1]) * drawn_numbers[i]
         return 0
 
-    def parse_input(self, input: list[str]) -> tuple[list[int], list[list[list[int]]]]:
-        drawn_numbers = list(map(int, input[0].split(',')))
-        lines = input[1:]
+    def parse_input(self, lines: list[str]) -> tuple[list[int], list[list[list[int]]]]:
+        drawn_numbers = list(map(int, lines[0].split(',')))
+        lines = lines[1:]
         del lines[::6]
-        lines = [list(map(int, line.split())) for line in lines]
-        boards = [list(lines[(self.BOARD_SIZE * i):(self.BOARD_SIZE * i + self.BOARD_SIZE)]) for i in range(len(lines) // self.BOARD_SIZE)]
+        boards = [list(map(int, line.split())) for line in lines]
+        boards = [list(boards[(self.BOARD_SIZE * i):(self.BOARD_SIZE * i + self.BOARD_SIZE)]) for i in range(len(boards) // self.BOARD_SIZE)]
         return drawn_numbers, boards
 
     def has_complete_row(self, board: list[list[int]], drawn_numbers) -> bool:

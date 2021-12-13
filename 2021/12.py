@@ -10,23 +10,23 @@ from utils.basepuzzle import BasePuzzle
 
 class Puzzle(BasePuzzle):
 
-    def part1(self, input: list[str]) -> int:
-        connections = self.parse_input(input)
+    def part1(self, lines: list[str]) -> int:
+        connections = self.parse_input(lines)
         paths = []
         visited = []
         self.visit_cave('start', connections, visited[:], paths, visits=0, max_visits=1)
         return len(paths)
 
-    def part2(self, input: list[str]) -> int:
-        connections = self.parse_input(input)
+    def part2(self, lines: list[str]) -> int:
+        connections = self.parse_input(lines)
         paths = []
         visited = []
         self.visit_cave('start', connections, visited[:], paths, visits=0, max_visits=2)
         return len(paths)
 
-    def parse_input(self, input: list[str]) -> dict[str, list[str]]:
+    def parse_input(self, lines: list[str]) -> dict[str, list[str]]:
         connections = {'start': []}
-        for line in input:
+        for line in lines:
             caves = line.split('-')
             if 'start' in caves:
                 if 'start' == caves[0]:

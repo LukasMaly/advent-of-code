@@ -12,13 +12,13 @@ from utils.basepuzzle import BasePuzzle
 
 class Puzzle(BasePuzzle):
 
-    def part1(self, input: list[str]) -> int:
-        nums = list(map(int, input[0].split(',')))
+    def part1(self, lines: list[str]) -> int:
+        nums = list(map(int, lines[0].split(',')))
         median = int(statistics.median(nums))
         return sum([abs(num - median) for num in nums])
 
-    def part2(self, input: list[str]) -> int:
-        nums = list(map(int, input[0].split(',')))
+    def part2(self, lines: list[str]) -> int:
+        nums = list(map(int, lines[0].split(',')))
         mean = statistics.mean(nums)
         mean_floor = math.floor(mean)
         mean_ceil = math.ceil(mean)

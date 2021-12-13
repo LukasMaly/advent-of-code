@@ -9,8 +9,8 @@ from utils.basepuzzle import BasePuzzle
 
 class Puzzle(BasePuzzle):
 
-    def part1(self, input: list[str]) -> int:
-        commands, units = self.parse_input(input)
+    def part1(self, lines: list[str]) -> int:
+        commands, units = self.parse_input(lines)
         directions = {'forward': 0, 'down': 0, 'up': 0}
         for c, u in zip(commands, units):
             directions[c] += u
@@ -18,8 +18,8 @@ class Puzzle(BasePuzzle):
         depth = directions['down'] - directions['up']
         return horizontal * depth
 
-    def part2(self, input: list[str]) -> int:
-        commands, units = self.parse_input(input)
+    def part2(self, lines: list[str]) -> int:
+        commands, units = self.parse_input(lines)
         horizontal = 0
         depth = 0
         aim = 0
@@ -33,10 +33,10 @@ class Puzzle(BasePuzzle):
                 aim += u
         return horizontal * depth
 
-    def parse_input(self, input: list[str]) -> tuple[list[str], list[int]]:
+    def parse_input(self, lines: list[str]) -> tuple[list[str], list[int]]:
         commands = []
         units = []
-        for line in input:
+        for line in lines:
             c, u = line.split()
             commands.append(c)
             units.append(int(u))

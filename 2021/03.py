@@ -9,21 +9,21 @@ from utils.basepuzzle import BasePuzzle
 
 class Puzzle(BasePuzzle):
 
-    def part1(self, input: list[str]) -> int:
-        occurences_of_one = self.get_ones_count(input)
-        most_common = self.get_most_common(occurences_of_one, len(input))
-        least_common = self.get_least_common(occurences_of_one, len(input))
+    def part1(self, lines: list[str]) -> int:
+        occurences_of_one = self.get_ones_count(lines)
+        most_common = self.get_most_common(occurences_of_one, len(lines))
+        least_common = self.get_least_common(occurences_of_one, len(lines))
         gamma_rate = int(''.join(most_common), 2)
         epsilon_rate = int(''.join(least_common), 2)
         return gamma_rate * epsilon_rate
 
-    def part2(self, input: list[str]) -> int:
-        oxygen_generator_rating = int(''.join(self.reduce_list(input[:], self.get_most_common)), 2)
-        co2_scrubber_rating = int(''.join(self.reduce_list(input[:], self.get_least_common)), 2)
+    def part2(self, lines: list[str]) -> int:
+        oxygen_generator_rating = int(''.join(self.reduce_list(lines[:], self.get_most_common)), 2)
+        co2_scrubber_rating = int(''.join(self.reduce_list(lines[:], self.get_least_common)), 2)
         return oxygen_generator_rating * co2_scrubber_rating
 
-    def get_ones_count(self, input: list[str]) -> list[int]:
-        return [int(sum(line[i] == '1' for line in input)) for i in range(len(input[0]))]
+    def get_ones_count(self, lines: list[str]) -> list[int]:
+        return [int(sum(line[i] == '1' for line in lines)) for i in range(len(lines[0]))]
 
     def get_most_common(self, ones_count: list[int], length: int) -> list[str]:
         return ['1' if occurence >= length / 2 else '0' for occurence in ones_count]

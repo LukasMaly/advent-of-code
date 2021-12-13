@@ -12,13 +12,13 @@ class Puzzle(BasePuzzle):
     PAIRS = {')': '(', ']': '[', '}': '{', '>': '<'}
     OPENING = ['(', '[', '{', '<']
 
-    def part1(self, input: list[str]) -> int:
+    def part1(self, lines: list[str]) -> int:
         POINTS = {')': 3,
                   ']': 57,
                   '}': 1197,
                   '>': 25137}
         illegals = []
-        for line in input:
+        for line in lines:
             opened = []
             for char in line:
                 if char in self.OPENING:
@@ -32,13 +32,13 @@ class Puzzle(BasePuzzle):
         score = sum([POINTS[illegal] for illegal in illegals])
         return score
 
-    def part2(self, input: list[str]) -> int:
+    def part2(self, lines: list[str]) -> int:
         POINTS = {'(': 1,
                   '[': 2,
                   '{': 3,
                   '<': 4}
         scores = []
-        for line in input:
+        for line in lines:
             opened = []
             corrupted = False
             for char in line:

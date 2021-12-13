@@ -9,9 +9,9 @@ from utils.basepuzzle import BasePuzzle
 
 class Puzzle(BasePuzzle):
 
-    def part1(self, input: list[str]) -> int:
+    def part1(self, lines: list[str]) -> int:
         directions = {'up': (-1, 0), 'down': (1, 0), 'left': (0, -1), 'right': (0, 1)}
-        heightmap = self.parse_input(input)
+        heightmap = self.parse_input(lines)
         height = len(heightmap)
         width = len(heightmap[0])
         heightmap = self.add_padding(heightmap)
@@ -25,8 +25,8 @@ class Puzzle(BasePuzzle):
             low_points[i] += 1
         return sum(low_points)
 
-    def part2(self, input: list[str]) -> int:
-        heightmap = self.parse_input(input)
+    def part2(self, lines: list[str]) -> int:
+        heightmap = self.parse_input(lines)
         labels = self.connected_component_labeling(heightmap)
         basins = {}
         for y, row in enumerate(labels):
@@ -42,9 +42,9 @@ class Puzzle(BasePuzzle):
             result *= x
         return result
 
-    def parse_input(self, input: list[str]) -> list[list[int]]:
+    def parse_input(self, lines: list[str]) -> list[list[int]]:
         heightmap = []
-        for line in input:
+        for line in lines:
             heightmap.append(list(map(int, [x for x in line])))
         return heightmap
 

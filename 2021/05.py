@@ -11,23 +11,23 @@ class Puzzle(BasePuzzle):
 
     DIAGRAM_SIZE = 1000
 
-    def part1(self, input: list[str]) -> int:
-        starts, ends = self.parse_input(input)
+    def part1(self, lines: list[str]) -> int:
+        starts, ends = self.parse_input(lines)
         diagram = [[0] * self.DIAGRAM_SIZE for i in range(self.DIAGRAM_SIZE)]
         for start, end in zip(starts, ends):
             self.draw_line(diagram, start, end, draw_diagonal=False)
         return self.count_overlaps(diagram)
 
-    def part2(self, input: list[str]) -> int:
-        starts, ends = self.parse_input(input)
+    def part2(self, lines: list[str]) -> int:
+        starts, ends = self.parse_input(lines)
         diagram = [[0] * self.DIAGRAM_SIZE for i in range(self.DIAGRAM_SIZE)]
         for start, end in zip(starts, ends):
             self.draw_line(diagram, start, end, draw_diagonal=True)
         return self.count_overlaps(diagram)
 
-    def parse_input(self, input: list[str]) -> tuple[list[tuple[int, int]], list[tuple[int, int]]]:
+    def parse_input(self, lines: list[str]) -> tuple[list[tuple[int, int]], list[tuple[int, int]]]:
         starts, ends = [], []
-        for line in input:
+        for line in lines:
             start, end = line.split(' -> ')
             start = list(map(int, start.split(',')))
             end = list(map(int, end.split(',')))

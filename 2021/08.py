@@ -9,29 +9,29 @@ from utils.basepuzzle import BasePuzzle
 
 class Puzzle(BasePuzzle):
 
-    def part1(self, input: list[str]) -> int:
+    def part1(self, lines: list[str]) -> int:
         DIGIT_LENS = [2, 4, 3, 7]  # 1, 4, 7, 8
         result = 0
-        _, values = self.parse_input(input)
+        _, values = self.parse_input(lines)
         for value in values:
             for digit in value:
                 if len(digit) in DIGIT_LENS:
                     result += 1
         return result
 
-    def part2(self, input: list[str]) -> int:
+    def part2(self, lines: list[str]) -> int:
         results = []
-        patterns, values = self.parse_input(input)
+        patterns, values = self.parse_input(lines)
         for pattern, value in zip(patterns, values):
             pattern_mapping = self.decode_pattern(pattern)
             keys = [self.sorted_str([char for char in digit]) for digit in value]
             results.append(int(''.join([pattern_mapping[key] for key in keys])))
         return(sum(results))
 
-    def parse_input(self, input: list[str]) -> tuple[list[str], list[str]]:
+    def parse_input(self, lines: list[str]) -> tuple[list[str], list[str]]:
         patterns = []
         values = []
-        for line in input:
+        for line in lines:
             pattern, value = line.split(' | ')
             pattern = pattern.split()
             value = value.split()
