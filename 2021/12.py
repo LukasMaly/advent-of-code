@@ -14,14 +14,14 @@ class Puzzle(BasePuzzle):
         connections = self.parse_input(lines)
         paths = []
         visited = []
-        self.visit_cave('start', connections, visited[:], paths, visits=0, max_visits=1)
+        self.visit_cave('start', connections, visited, paths, visits=0, max_visits=1)
         return len(paths)
 
     def part2(self, lines: list[str]) -> int:
         connections = self.parse_input(lines)
         paths = []
         visited = []
-        self.visit_cave('start', connections, visited[:], paths, visits=0, max_visits=2)
+        self.visit_cave('start', connections, visited, paths, visits=0, max_visits=2)
         return len(paths)
 
     def parse_input(self, lines: list[str]) -> dict[str, list[str]]:
@@ -69,9 +69,9 @@ class Puzzle(BasePuzzle):
             self.visit_cave(cave, connections, visited[:], paths, visits, max_visits)
 
     def is_small(self, name: str) -> bool:
-        if name == 'start':
-            return False
         if str.islower(name[0]):
+            if name == 'start':
+                return False
             return True
         return False
 
