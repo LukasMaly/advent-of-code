@@ -4,7 +4,6 @@
 https://adventofcode.com/2021/day/13
 '''
 
-from os import pardir
 from utils.basepuzzle import BasePuzzle
 
 

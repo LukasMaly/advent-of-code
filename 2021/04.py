@@ -4,7 +4,6 @@
 https://adventofcode.com/2021/day/4
 '''
 
-from time import time
 from utils.basepuzzle import BasePuzzle
 
 
