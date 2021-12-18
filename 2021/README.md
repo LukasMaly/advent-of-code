@@ -15,3 +15,4 @@
 * [Day 13: Transparent Origami](13.py)
 * [Day 14: Extended Polymerization](14.py)
 * [Day 15: Chiton](15.py)
+* [Day 16: Packet Decoder](16.py)
