@@ -17,3 +17,4 @@
 * [Day 15: Chiton](15.py)
 * [Day 16: Packet Decoder](16.py)
 * [Day 17: Trick Shot](17.py)
+* [Day 18: Snailfish](18.py)
