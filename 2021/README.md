@@ -16,3 +16,4 @@
 * [Day 14: Extended Polymerization](14.py)
 * [Day 15: Chiton](15.py)
 * [Day 16: Packet Decoder](16.py)
+* [Day 17: Trick Shot](17.py)

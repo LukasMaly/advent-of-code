@@ -4,8 +4,6 @@
 https://adventofcode.com/2021/day/15
 '''
 
-import sys
-
 from utils.basepuzzle import BasePuzzle
 
 
@@ -29,6 +27,7 @@ class Puzzle(BasePuzzle):
         return risk_levels
 
     def dijkstra(self, a: list[list[int]]) -> int:
+        import sys
         height, width = len(a), len(a[0])
         dist = [[sys.maxsize] * width for i in range(height)]
         dist[0][0] = 0
