@@ -19,3 +19,4 @@
 * [Day 17: Trick Shot](17.py)
 * [Day 18: Snailfish](18.py)
 * [Day 19: Beacon Scanner](19.py)
+* [Day 20: Trench Map](20.py)
