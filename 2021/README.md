@@ -20,3 +20,4 @@
 * [Day 18: Snailfish](18.py)
 * [Day 19: Beacon Scanner](19.py)
 * [Day 20: Trench Map](20.py)
+* [Day 22: Reactor Reboot](22.py)
