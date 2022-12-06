@@ -4,9 +4,9 @@ https://adventofcode.com/2022/day/6
 """
 
 function detect_marker(line, size)
-    for i in 1:(length(line) - size + 1)
-        if length(Set(line[i:(i + size - 1)])) == size
-            return i + size - 1
+    for i in size:length(line)
+        if length(Set(line[i - size + 1:i])) == size
+            return i
         end
     end
 end
