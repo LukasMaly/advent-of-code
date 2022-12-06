@@ -5,3 +5,4 @@
 * [Day 3: Rucksack Reorganization](03.jl)
 * [Day 4: Camp Cleanup](04.jl)
 * [Day 5: Supply Stacks](05.jl)
+* [Day 6: Tuning Trouble](06.jl)
