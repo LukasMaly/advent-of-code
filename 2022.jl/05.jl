@@ -1,4 +1,7 @@
-lines = readlines("inputs/05.txt")
+"""
+Day 5: Supply Stacks
+https://adventofcode.com/2022/day/5
+"""
 
 function read_stacks(lines)
     empty_line = findall(isempty, lines)[1]
@@ -33,12 +36,9 @@ function read_rearrangements(lines)
     return rearrangements
 end
 
-stacks = read_stacks(lines)
-rearrangements = read_rearrangements(lines)
-
-# Part 1
-
-function part1(stacks, rearrangements)
+function part1(lines)
+    stacks = read_stacks(lines)
+    rearrangements = read_rearrangements(lines)
     for rearrangement in rearrangements
         for i in 1:rearrangement[1]
             stacks[rearrangement[3]] *= stacks[rearrangement[2]][end]
@@ -52,13 +52,9 @@ function part1(stacks, rearrangements)
     return top
 end
 
-top = part1(copy(stacks), copy(rearrangements))
-
-println(top)
-
-# Part 2
-
-function part2(stacks, rearrangements)
+function part2(lines)
+    stacks = read_stacks(lines)
+    rearrangements = read_rearrangements(lines)
     for rearrangement in rearrangements
         stacks[rearrangement[3]] *= stacks[rearrangement[2]][(end-rearrangement[1]+1):end]
         stacks[rearrangement[2]] = stacks[rearrangement[2]][1:(end-rearrangement[1])]
@@ -70,6 +66,11 @@ function part2(stacks, rearrangements)
     return top
 end
 
-top = part2(copy(stacks), copy(rearrangements))
+example = readlines("examples/05.txt")
+input = readlines("inputs/05.txt")
 
-println(top)
+@assert part1(example) == "CMZ"
+println(part1(input))
+
+@assert part2(example) == "MCD"
+println(part2(input))

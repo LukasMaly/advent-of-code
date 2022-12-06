@@ -1,28 +1,40 @@
-lines = readlines("inputs/01.txt")
+"""
+Day 1: Rock Paper Scissors
+https://adventofcode.com/2022/day/1
+"""
 
-# Part 1
-
-elves = Vector{Vector{Int64}}()
-elf = Vector{Int64}()
-
-for line in lines
-    if line == ""
-        push!(elves, copy(elf))
-        empty!(elf)
-    else
-        calories = parse(Int64, line)
-        push!(elf, calories)
+function calories_sums(lines)
+    elves = Vector{Vector{Int64}}()
+    elf = Vector{Int64}()
+    for line in lines
+        if line == ""
+            push!(elves, copy(elf))
+            empty!(elf)
+        else
+            calories = parse(Int64, line)
+            push!(elf, calories)
+        end
     end
+    push!(elves, elf)
+    return map(elf -> sum(elf), elves)
 end
-push!(elves, elf)
 
-sums = map(elf -> sum(elf), elves)
+function part1(lines)
+    sums = calories_sums(lines)
+    return maximum(sums)
+end
 
-println(maximum(sums))
+function part2(lines)
+    sums = calories_sums(lines)
+    top_three = partialsortperm(sums, 1:3, rev=true)
+    return sum(sums[top_three])
+end
 
-# Part 2
+example = readlines("examples/01.txt")
+input = readlines("inputs/01.txt")
 
-top_three = partialsortperm(sums, 1:3, rev=true)
-top_three_sum = sum(sums[top_three])
+@assert part1(example) == 24000
+println(part1(input))
 
-println(top_three_sum)
+@assert part2(example) == 45000
+println(part2(input))
