@@ -6,3 +6,4 @@
 * [Day 4: Camp Cleanup](04.jl)
 * [Day 5: Supply Stacks](05.jl)
 * [Day 6: Tuning Trouble](06.jl)
+* [Day 7: No Space Left On Device](07.jl)
