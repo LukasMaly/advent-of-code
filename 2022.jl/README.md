@@ -8,3 +8,4 @@
 * [Day 6: Tuning Trouble](06.jl)
 * [Day 7: No Space Left On Device](07.jl)
 * [Day 8: Treetop Tree House](08.jl)
+* [Day 9: Rope Bridge](09.jl)
