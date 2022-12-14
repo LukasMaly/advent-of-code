@@ -12,3 +12,4 @@
 * [Day 10: Cathode-Ray Tube](10.jl)
 * [Day 11: Monkey in the Middle](11.jl)
 * [Day 12: Hill Climbing Algorithm](12.jl)
+* [Day 13: Distress Signal](13.jl)
