@@ -63,22 +63,7 @@ function part2(lines)
     end
     push!(unordered, [[2]])
     push!(unordered, [[6]])
-    ordered = Vector{Vector}()
-    push!(ordered, popfirst!(unordered))
-    while length(unordered) > 0
-        item = popfirst!(unordered)
-        inserted = false
-        for i in 1:length(ordered)
-            if is_right_order(item, ordered[i])
-                insert!(ordered, i, item)
-                inserted = true
-                break
-            end
-        end
-        if !inserted
-            push!(ordered, item)
-        end
-    end
+    ordered = sort(unordered, lt=is_right_order)
     return prod(findall(x -> x == [[2]] || x == [[6]], ordered))
 end
 
