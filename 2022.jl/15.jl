@@ -1,5 +1,5 @@
 """
-Day 15: 
+Day 15: Beacon Exclusion Zone
 https://adventofcode.com/2022/day/15
 """
 
@@ -39,53 +39,63 @@ function part1(lines, y)
     return length(positions)
 end
 
+function lines_intersection(line1, line2)
+    a1 = line1[2][2] - line1[1][2]
+    b1 = line1[1][1] - line1[2][1]
+    c1 = a1 * line1[1][1] + b1 * line1[1][2]
+    a2 = line2[2][2] - line2[1][2]
+    b2 = line2[1][1] - line2[2][1]
+    c2 = a2 * line2[1][1] + b2 * line2[1][2]
+    det = a1 * b2 - a2 * b1
+    if det == 0
+        return nothing
+    else
+        x = (b2 * c1 - b1 * c2) / det
+        y = (a1 * c2 - a2 * c1) / det
+        return (Int(round(x)), Int(round(y)))
+    end
+end
+
+struct Vertices
+    left::Tuple{Int, Int}
+    right::Tuple{Int, Int}
+    top::Tuple{Int, Int}
+    bottom::Tuple{Int, Int}
+end
+
 function part2(lines, n)
     (sensors, beacons) = parse_input(lines)
     sensors = hcat(sensors...)
     beacons = hcat(beacons...)
     distances = abs.(sensors[1, :] .- beacons[1, :]) .+ abs.(sensors[2, :] .- beacons[2, :])
-    boundaries = Vector{Set{Tuple{Int, Int}}}()
-    for i in 1:size(sensors)[2]
-        top = sensors[:, i] + [0, -(distances[i]+1)]
-        bottom = sensors[:, i] + [0, distances[i]+1]
-        left = sensors[:, i] + [-(distances[i]+1), 0]
-        right = sensors[:, i] + [distances[i]+1, 0]
-        boundary = Set{Tuple{Int, Int}}()
-        for (x, y) in zip(top[1]:right[1], top[2]:right[2])
-            if 0 <= x <= n && 0 <= y <= n
-                push!(boundary, (x, y))
-            end
-        end
-        for (x, y) in zip(right[1]:-1:bottom[1], right[2]:bottom[2])
-            if 0 <= x <= n && 0 <= y <= n
-                push!(boundary, (x, y))
-            end
-        end
-        for (x, y) in zip(bottom[1]:-1:left[1], bottom[2]:-1:left[2])
-            if 0 <= x <= n && 0 <= y <= n
-                push!(boundary, (x, y))
-            end
-        end
-        for (x, y) in zip(left[1]:top[1], left[2]:-1:top[2])
-            if 0 <= x <= n && 0 <= y <= n
-                push!(boundary, (x, y))
-            end
-        end
-        push!(boundaries, boundary)
+    vertices = Vector{Vertices}()
+    n_sensors = size(sensors)[2]
+    for i in 1:n_sensors
+        left = Tuple(sensors[:, i] + [-(distances[i]+1), 0])
+        right = Tuple(sensors[:, i] + [distances[i]+1, 0])
+        top = Tuple(sensors[:, i] + [0, -(distances[i]+1)])
+        bottom = Tuple(sensors[:, i] + [0, distances[i]+1])
+        push!(vertices, Vertices(left, right, top, bottom))
     end
-    for i in 1:length(boundaries)-1
-        for j in i+1:length(boundaries)
-            intersections = intersect(boundaries[i], boundaries[j])
+    for i in 1:n_sensors-1
+        for j in i+1:n_sensors
+            intersections = []
+            push!(intersections, lines_intersection((vertices[i].top, vertices[i].right), (vertices[j].right, vertices[j].bottom)))
+            push!(intersections, lines_intersection((vertices[i].top, vertices[i].right), (vertices[j].left, vertices[j].top)))
+            push!(intersections, lines_intersection((vertices[i].bottom, vertices[i].left), (vertices[j].right, vertices[j].bottom)))
+            push!(intersections, lines_intersection((vertices[i].bottom, vertices[i].left), (vertices[j].left, vertices[j].top)))
+            push!(intersections, lines_intersection((vertices[i].right, vertices[i].bottom), (vertices[j].top, vertices[j].right)))
+            push!(intersections, lines_intersection((vertices[i].right, vertices[i].bottom), (vertices[j].bottom, vertices[j].left)))
+            push!(intersections, lines_intersection((vertices[i].left, vertices[i].top), (vertices[j].top, vertices[j].right)))
+            push!(intersections, lines_intersection((vertices[i].left, vertices[i].top), (vertices[j].bottom, vertices[j].left)))
             for intersection in intersections
-                (x, y) = intersection
-                m = 0
-                for n in 1:size(sensors)[2]
-                    if abs(x - sensors[1, n]) + abs(y - sensors[2, n]) > distances[n]
-                        m += 1
+                if !isnothing(intersection)
+                    (x, y) = intersection
+                    if 0 <= x <= n && 0 <= y <= n
+                        if sum(abs.(x .- sensors[1, :]) .+ abs.(y .- sensors[2, :]) .> distances) == n_sensors
+                            return x * 4_000_000 + y
+                        end
                     end
-                end
-                if m == size(sensors)[2]
-                    return x * 4_000_000 + y
                 end
             end
         end
