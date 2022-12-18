@@ -16,3 +16,4 @@
 * [Day 14: Regolith Reservoir](14.jl)
 * [Day 15: Beacon Exclusion Zone](15.jl)
 * [Day 17: Pyroclastic Flow](17.jl)
+* [Day 18: Boiling Boulders](18.jl)
