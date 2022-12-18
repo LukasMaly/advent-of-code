@@ -66,8 +66,7 @@ function move(valves, distances, pressure_release, path, valve, distance, total_
     end
 end
 
-function part1(lines)
-    valves = parse_input(lines)
+function get_valves_and_distances(valves)
     distances = floyd_warshall(valves)
     zero_flow_valves = [k for (k, v) in valves if v.flow_rate == 0]
     # delete itself
@@ -87,40 +86,30 @@ function part1(lines)
         end
         delete!(valves, v)
     end
+    return valves, distances
+end
+
+function brute_force_search(valves, distances, minutes)
     pressure_release = Dict{Vector{String}, Int}()
     path = Vector{String}()
     for (valve, distance) in distances["AA"]
-        move(valves, distances, pressure_release, copy(path), valve, distance, 0, 30)
+        move(valves, distances, pressure_release, copy(path), valve, distance, 0, minutes)
     end
+    return pressure_release
+end
+
+
+function part1(lines)
+    valves = parse_input(lines)
+    valves, distances = get_valves_and_distances(valves)
+    pressure_release = brute_force_search(valves, distances, 30)
     return maximum(values(pressure_release))
 end
 
 function part2(lines)
     valves = parse_input(lines)
-    distances = floyd_warshall(valves)
-    zero_flow_valves = [k for (k, v) in valves if v.flow_rate == 0]
-    # delete itself
-    for u in keys(distances)
-        delete!(distances[u], u)
-    end
-    # delete zero flow valves from targets
-    for u in keys(distances)
-        for v in zero_flow_valves
-            delete!(distances[u], v)
-        end
-    end
-    # delete zero flow valves from sources
-    for v in zero_flow_valves
-        if v != "AA"
-            delete!(distances, v)
-        end
-        delete!(valves, v)
-    end
-    pressure_release = Dict{Vector{String}, Int}()
-    path = Vector{String}()
-    for (valve, distance) in distances["AA"]
-        move(valves, distances, pressure_release, copy(path), valve, distance, 0, 26)
-    end
+    valves, distances = get_valves_and_distances(valves)
+    pressure_release = brute_force_search(valves, distances, 26)
     with_elephant = 0
     for (i, key1) in enumerate(collect(keys(pressure_release))[1:end-1])
         for key2 in collect(keys(pressure_release))[i+1:end]
