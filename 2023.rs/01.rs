@@ -1,13 +1,13 @@
 use std::fs;
 
 fn main() {
-    part_one("examples/01_1.txt");
-    part_one("inputs/01.txt");
-    part_two("examples/01_2.txt");
-    part_two("inputs/01.txt");
+    assert_eq!(part_one("examples/01_1.txt"), 142);
+    println!("{}", part_one("inputs/01.txt"));
+    assert_eq!(part_two("examples/01_2.txt"), 281);
+    println!("{}", part_two("inputs/01.txt"));
 }
 
-fn part_one(path: &str)
+fn part_one(path: &str) -> i32
 {
     let contents = fs::read_to_string(path)
         .expect("Something went wrong reading the file");
@@ -25,12 +25,10 @@ fn part_one(path: &str)
         nums.push(num.parse().unwrap());
     }
 
-    let sum: i32 = nums.iter().sum();
-
-    println!("{}", sum);
+    nums.iter().sum()
 }
 
-fn part_two(path: &str)
+fn part_two(path: &str) -> i32
 {
     let contents = fs::read_to_string(path)
         .expect("Something went wrong reading the file");
@@ -75,7 +73,5 @@ fn part_two(path: &str)
         nums.push(num.parse().unwrap());
     }
 
-    let sum: i32 = nums.iter().sum();
-    
-    println!("{}", sum);
+    nums.iter().sum()
 }

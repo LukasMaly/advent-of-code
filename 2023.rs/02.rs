@@ -1,14 +1,10 @@
 use std::fs;
 
 fn main() {
-    let answer = part_one("examples/02.txt");
-    assert!(answer == 8);
-    let answer = part_one("inputs/02.txt");
-    println!("{}", answer);
-    let answer = part_two("examples/02.txt");
-    assert!(answer == 2286);
-    let answer = part_two("inputs/02.txt");
-    println!("{}", answer);
+    assert_eq!(part_one("examples/02.txt"), 8);
+    println!("{}", part_one("inputs/02.txt"));
+    assert_eq!(part_two("examples/02.txt"), 2286);
+    println!("{}", part_two("inputs/02.txt"));
 }
 
 fn part_one(path: &str) -> u32

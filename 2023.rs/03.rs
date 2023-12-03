@@ -1,14 +1,10 @@
 use std::fs;
 
 fn main() {
-    let answer = part_one("examples/03.txt");
-    assert!(answer == 4361);
-    let answer = part_one("inputs/03.txt");
-    println!("{}", answer);
-    let answer = part_two("examples/03.txt");
-    assert!(answer == 467835);
-    let answer = part_two("inputs/03.txt");
-    println!("{}", answer);
+    assert_eq!(part_one("examples/03.txt"), 4361);
+    println!("{}", part_one("inputs/03.txt"));
+    assert_eq!(part_two("examples/03.txt"), 467835);
+    println!("{}", part_two("inputs/03.txt"));
 }
 
 fn search_number(chars: &mut Vec<char>, width: usize, x: usize, y: usize) -> i32
