@@ -1,7 +1,7 @@
 # Advent of Code
 
-| Year                      | Language | Stars |
-|---------------------------|----------|-------|
-| [2021](2021.py/README.md) | Python   | 44 ⭐️ |
-| [2022](2022.jl/README.md) | Julia    | 36 ⭐️ |
-| [2023](2023.rs/README.md) | Rust     |  6 ⭐️ |
+| Year                      | Language | ⭐️ |
+|---------------------------|----------|----|
+| [2021](2021.py/README.md) | Python   | 44 |
+| [2022](2022.jl/README.md) | Julia    | 36 |
+| [2023](2023.rs/README.md) | Rust     |  6 |
