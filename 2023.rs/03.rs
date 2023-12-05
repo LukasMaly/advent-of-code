@@ -1,10 +1,19 @@
 use std::fs;
 
 fn main() {
-    assert_eq!(part_one("examples/03.txt"), 4361);
-    println!("{}", part_one("inputs/03.txt"));
-    assert_eq!(part_two("examples/03.txt"), 467835);
-    println!("{}", part_two("inputs/03.txt"));
+    let example = fs::read_to_string("examples/03.txt").unwrap();
+    let input = fs::read_to_string("inputs/03.txt").unwrap();
+
+    assert_eq!(part_one(example.lines().collect()), 4361);
+    let part_one = part_one(input.lines().collect());
+    println!("{}", part_one);
+
+    assert_eq!(part_two(example.lines().collect()), 467835);
+    let part_two = part_two(input.lines().collect());
+    println!("{}", part_two);
+
+    assert_eq!(part_one, 540025);
+    assert_eq!(part_two, 84584891);
 }
 
 fn search_number(chars: &mut Vec<char>, width: usize, x: usize, y: usize) -> i32
@@ -22,13 +31,12 @@ fn search_number(chars: &mut Vec<char>, width: usize, x: usize, y: usize) -> i32
     number
 }
 
-fn part_one(path: &str) -> i32
+fn part_one(input: Vec<&str>) -> i32
 {
-    let contents = fs::read_to_string(path).unwrap();
-    let height = contents.lines().count();
-    let width = contents.lines().nth(0).unwrap().len();
+    let height = input.len();
+    let width = input[0].len();
     let mut chars: Vec<char> = Vec::with_capacity(height * width);
-    for line in contents.lines() {
+    for line in input {
         for char in line.chars() {
             chars.push(char);
         }
@@ -67,13 +75,12 @@ fn part_one(path: &str) -> i32
     sum
 }
 
-fn part_two(path: &str) -> i32
+fn part_two(input: Vec<&str>) -> i32
 {
-    let contents = fs::read_to_string(path).unwrap();
-    let height = contents.lines().count();
-    let width = contents.lines().nth(0).unwrap().len();
+    let height = input.len();
+    let width = input[0].len();
     let mut chars: Vec<char> = Vec::with_capacity(height * width);
-    for line in contents.lines() {
+    for line in input {
         for char in line.chars() {
             chars.push(char);
         }

@@ -1,20 +1,26 @@
 use std::fs;
 
 fn main() {
-    assert_eq!(part_one("examples/01_1.txt"), 142);
-    println!("{}", part_one("inputs/01.txt"));
-    assert_eq!(part_two("examples/01_2.txt"), 281);
-    println!("{}", part_two("inputs/01.txt"));
+    let example_1 = fs::read_to_string("examples/01_1.txt").unwrap();
+    let example_2 = fs::read_to_string("examples/01_2.txt").unwrap();
+    let input = fs::read_to_string("inputs/01.txt").unwrap();
+
+    assert_eq!(part_one(example_1.lines().collect()), 142);
+    let part_one = part_one(input.lines().collect());
+    println!("{}", part_one);
+
+    assert_eq!(part_two(example_2.lines().collect()), 281);
+    let part_two = part_two(input.lines().collect());
+    println!("{}", part_two);
+
+    assert_eq!(part_one, 54630);
+    assert_eq!(part_two, 54770);
 }
 
-fn part_one(path: &str) -> i32
+fn part_one(input: Vec<&str>) -> i32
 {
-    let contents = fs::read_to_string(path)
-        .expect("Something went wrong reading the file");
-
     let mut nums: Vec<i32> = Vec::new();
-
-    for line in contents.lines() {
+    for line in input {
         let mut num = String::new();
         for c in line.chars() {
             if c.is_digit(10) {
@@ -24,18 +30,13 @@ fn part_one(path: &str) -> i32
         num = format!("{}{}", num.chars().nth(0).unwrap(), num.chars().last().unwrap());
         nums.push(num.parse().unwrap());
     }
-
     nums.iter().sum()
 }
 
-fn part_two(path: &str) -> i32
+fn part_two(input: Vec<&str>) -> i32
 {
-    let contents = fs::read_to_string(path)
-        .expect("Something went wrong reading the file");
-
     let mut nums: Vec<i32> = Vec::new();
-
-    for line in contents.lines() {
+    for line in input {
         let mut num = String::new();
         for i in 0..line.len() {
             if line.chars().nth(i).unwrap().is_digit(10) {
@@ -72,6 +73,5 @@ fn part_two(path: &str) -> i32
         num = format!("{}{}", num.chars().nth(0).unwrap(), num.chars().last().unwrap());
         nums.push(num.parse().unwrap());
     }
-
     nums.iter().sum()
 }

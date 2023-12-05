@@ -1,26 +1,34 @@
 use std::fs;
 
 fn main() {
-    assert_eq!(part_one("examples/04.txt"), 13);
-    println!("{}", part_one("inputs/04.txt"));
-    assert_eq!(part_two("examples/04.txt"), 30);
-    println!("{}", part_two("inputs/04.txt"));
+    let example = fs::read_to_string("examples/04.txt").unwrap();
+    let input = fs::read_to_string("inputs/04.txt").unwrap();
+
+    assert_eq!(part_one(example.lines().collect()), 13);
+    let part_one = part_one(input.lines().collect());
+    println!("{}", part_one);
+
+    assert_eq!(part_two(example.lines().collect()), 30);
+    let part_two = part_two(input.lines().collect());
+    println!("{}", part_two);
+
+    assert_eq!(part_one, 18653);
+    assert_eq!(part_two, 5921508);
 }
 
-fn part_one(path: &str) -> i32
+fn part_one(input: Vec<&str>) -> i32
 {
-    let contents = fs::read_to_string(path).unwrap();
     let mut sum = 0;
-    for line in contents.lines() {
-        let numbers = line.split(':').collect::<Vec<&str>>()[1].split('|').collect::<Vec<&str>>();
-        let winning_numbers = numbers[0].split_whitespace().collect::<Vec<&str>>();
-        let winning_numbers: Vec<i32> = winning_numbers.iter().map(|x| x.parse::<i32>().unwrap()).collect();
-        let my_numbers = numbers[1].split_whitespace().collect::<Vec<&str>>();
-        let my_numbers: Vec<i32> = my_numbers.iter().map(|x| x.parse::<i32>().unwrap()).collect();
+    for line in input {
+        let numbers: Vec<&str> = line.split(':').collect::<Vec<&str>>()[1].split('|').collect();
+        let winning_numbers: Vec<&str> = numbers[0].split_whitespace().collect();
+        let winning_numbers: Vec<i32> = winning_numbers.iter().map(|x| x.parse().unwrap()).collect();
+        let my_numbers: Vec<&str> = numbers[1].split_whitespace().collect::<Vec<&str>>();
+        let my_numbers: Vec<i32> = my_numbers.iter().map(|x| x.parse().unwrap()).collect();
         let mut matches = 0;
-        for my_number in my_numbers {
+        for my_number in &my_numbers {
             for winning_number in &winning_numbers {
-                if my_number == *winning_number {
+                if my_number == winning_number {
                     matches += 1;
                 }
             }
@@ -32,19 +40,18 @@ fn part_one(path: &str) -> i32
     sum
 }
 
-fn part_two(path: &str) -> i32
+fn part_two(input: Vec<&str>) -> i32
 {
-    let contents = fs::read_to_string(path).unwrap();
-    let mut match_counts = vec![0; contents.lines().count()];
-    for (l, line ) in contents.lines().enumerate() {
-        let numbers = line.split(':').collect::<Vec<&str>>()[1].split('|').collect::<Vec<&str>>();
-        let winning_numbers = numbers[0].split_whitespace().collect::<Vec<&str>>();
-        let winning_numbers: Vec<i32> = winning_numbers.iter().map(|x| x.parse::<i32>().unwrap()).collect();
-        let my_numbers = numbers[1].split_whitespace().collect::<Vec<&str>>();
-        let my_numbers: Vec<i32> = my_numbers.iter().map(|x| x.parse::<i32>().unwrap()).collect();
-        for my_number in my_numbers {
+    let mut match_counts = vec![0; input.len()];
+    for (l, line) in input.iter().enumerate() {
+        let numbers: Vec<&str> = line.split(':').collect::<Vec<&str>>()[1].split('|').collect();
+        let winning_numbers: Vec<&str> = numbers[0].split_whitespace().collect();
+        let winning_numbers: Vec<i32> = winning_numbers.iter().map(|x| x.parse().unwrap()).collect();
+        let my_numbers: Vec<&str> = numbers[1].split_whitespace().collect::<Vec<&str>>();
+        let my_numbers: Vec<i32> = my_numbers.iter().map(|x| x.parse().unwrap()).collect();
+        for my_number in &my_numbers {
             for winning_number in &winning_numbers {
-                if my_number == *winning_number {
+                if my_number == winning_number {
                     match_counts[l] += 1;
                 }
             }
