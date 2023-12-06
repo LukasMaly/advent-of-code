@@ -58,11 +58,11 @@ fn parse_input(input: Vec<&str>) -> (Vec<u32>, HashMap<&str, Vec<(u32, u32, u32)
 fn part_one(input: Vec<&str>) -> u32
 {
     let (seeds, maps) = parse_input(input);
-    let destination_names = vec!["seed", "soil", "fertilizer", "water", "light", "temperature", "humidity", "location"];
+    let destination_names = vec!["soil", "fertilizer", "water", "light", "temperature", "humidity", "location"];
     let mut seed_locations: HashMap<u32, u32> = HashMap::new();
     for seed in seeds {
         let mut destination = seed;
-        for destination_name in destination_names[1..].iter() {
+        for destination_name in destination_names.iter() {
             for values in maps.get(destination_name).unwrap() {
                 let destination_start = values.0;
                 let source_start = values.1;
@@ -88,26 +88,26 @@ fn part_two(input: Vec<&str>) -> u32
 {
     let (seeds, maps) = parse_input(input);
     let seeds: Vec<(u32, u32)> = seeds.iter().step_by(2).zip(seeds.iter().skip(1).step_by(2)).map(|(a, b)| (*a, *b)).collect();
-    let destination_names = vec!["seed", "soil", "fertilizer", "water", "light", "temperature", "humidity", "location"];
-    let mut min_location = u32::MAX;
-    for (seed_start, seed_range) in seeds {
-        for seed in seed_start..(seed_start + seed_range) {
-            let mut destination = seed;
-            for destination_name in destination_names[1..].iter() {
-                for values in maps.get(destination_name).unwrap() {
-                    let destination_start = values.0;
-                    let source_start = values.1;
-                    let source_end = values.1 as u64 + values.2 as u64;
-                    if source_start <= destination && u64::from(destination) < source_end {
-                        destination = destination_start + (destination - source_start);
-                        break;
-                    }
+    let destination_names = vec!["soil", "fertilizer", "water", "light", "temperature", "humidity", "location"];
+    let mut location = 0;
+    loop {
+        let mut source = location;
+        for destination_name in destination_names.iter().rev() {
+            for values in maps.get(destination_name).unwrap() {
+                let destination_start = values.0;
+                let destination_end = values.0 + values.2;
+                let source_start = values.1;
+                if destination_start <= source && source < destination_end {
+                    source = source_start + (source - destination_start);
+                    break;
                 }
             }
-            if destination < min_location {
-                min_location = destination;
+        }
+        for (seed_start, seed_range) in &seeds {
+            if *seed_start <= source && source <= (*seed_start + *seed_range) {
+                return location;
             }
         }
+        location += 1;
     }
-    min_location
 }
