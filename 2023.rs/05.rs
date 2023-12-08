@@ -1,3 +1,4 @@
+use std::cmp;
 use std::collections::HashMap;
 use std::collections::HashSet;
 use std::fs;
@@ -18,13 +19,13 @@ fn main() {
     assert_eq!(part_two, 23738616);
 }
 
-fn parse_input(input: Vec<&str>) -> (Vec<u32>, HashMap<&str, Vec<(u32, u32, u32)>>)
+fn parse_input(input: Vec<&str>) -> (Vec<u64>, HashMap<&str, Vec<(u64, u64, u64)>>)
 {
-    let mut maps: HashMap<&str, Vec<(u32, u32, u32)>> = HashMap::new();
+    let mut maps: HashMap<&str, Vec<(u64, u64, u64)>> = HashMap::new();
     let mut map_name = "";
-    let mut map: Vec<(u32, u32, u32)> = Vec::new();
+    let mut map: Vec<(u64, u64, u64)> = Vec::new();
     let mut numbers_set = HashSet::new();
-    let mut seeds: Vec<u32> = Vec::new();
+    let mut seeds: Vec<u64> = Vec::new();
     for (l, line) in input.iter().enumerate() {
         if l == 0 {
             let seed_numbers: Vec<&str> = line.split(':').collect::<Vec<&str>>()[1].split_whitespace().collect();
@@ -44,7 +45,7 @@ fn parse_input(input: Vec<&str>) -> (Vec<u32>, HashMap<&str, Vec<(u32, u32, u32)
         }
         else {
             let numbers: Vec<&str> = line.split_whitespace().collect();
-            let numbers: Vec<u32> = numbers.iter().map(|x| x.parse().unwrap()).collect();
+            let numbers: Vec<u64> = numbers.iter().map(|x| x.parse().unwrap()).collect();
             map.push((numbers[0], numbers[1], numbers[2]));
             for number in &numbers {
                 numbers_set.insert(*number);
@@ -55,19 +56,19 @@ fn parse_input(input: Vec<&str>) -> (Vec<u32>, HashMap<&str, Vec<(u32, u32, u32)
     (seeds, maps)
 }
 
-fn part_one(input: Vec<&str>) -> u32
+fn part_one(input: Vec<&str>) -> u64
 {
     let (seeds, maps) = parse_input(input);
     let destination_names = vec!["soil", "fertilizer", "water", "light", "temperature", "humidity", "location"];
-    let mut seed_locations: HashMap<u32, u32> = HashMap::new();
+    let mut seed_locations: HashMap<u64, u64> = HashMap::new();
     for seed in seeds {
         let mut destination = seed;
         for destination_name in destination_names.iter() {
             for values in maps.get(destination_name).unwrap() {
                 let destination_start = values.0;
                 let source_start = values.1;
-                let source_end = values.1 as u64 + values.2 as u64;
-                if source_start <= destination && u64::from(destination) < source_end {
+                let source_end = values.1 + values.2;
+                if source_start <= destination && destination < source_end {
                     destination = destination_start + (destination - source_start);
                     break;
                 }
@@ -84,30 +85,40 @@ fn part_one(input: Vec<&str>) -> u32
     min_location
 }
 
-fn part_two(input: Vec<&str>) -> u32
+fn part_two(input: Vec<&str>) -> u64
 {
     let (seeds, maps) = parse_input(input);
-    let seeds: Vec<(u32, u32)> = seeds.iter().step_by(2).zip(seeds.iter().skip(1).step_by(2)).map(|(a, b)| (*a, *b)).collect();
+    let seeds: Vec<(u64, u64)> = seeds.iter().step_by(2).zip(seeds.iter().skip(1).step_by(2)).map(|(a, b)| (*a, *b)).collect();
     let destination_names = vec!["soil", "fertilizer", "water", "light", "temperature", "humidity", "location"];
-    let mut location = 0;
-    loop {
-        let mut source = location;
-        for destination_name in destination_names.iter().rev() {
-            for values in maps.get(destination_name).unwrap() {
-                let destination_start = values.0;
-                let destination_end = values.0 + values.2;
-                let source_start = values.1;
-                if destination_start <= source && source < destination_end {
-                    source = source_start + (source - destination_start);
-                    break;
+    let mut locations: Vec<u64> = Vec::new();
+    for (seed_start, seed_len) in &seeds {
+        let mut ranges: Vec<(u64, u64)> = Vec::new();
+        ranges.push((*seed_start, *seed_start + *seed_len));
+        for destination_name in destination_names.iter() {
+            let mut inter_ranges: Vec<(u64, u64)> = Vec::new();
+            for (dst_start, src_start, len) in maps.get(destination_name).unwrap() {
+                let mut new_ranges: Vec<(u64, u64)> = Vec::new();
+                while !ranges.is_empty() {
+                    let (start, end) = ranges.pop().unwrap();
+                    let src_end = *src_start + *len;
+                    let before = (start, cmp::min(end, *src_start));
+                    let inter = (cmp::max(start, *src_start), cmp::min(end, src_end));
+                    let after = (cmp::max(start, src_end), end);
+                    if before.1 > before.0 {
+                        new_ranges.push(before);
+                    }
+                    if inter.1 > inter.0 {
+                        inter_ranges.push((inter.0 - *src_start + *dst_start, inter.1 - *src_start + *dst_start));
+                    }
+                    if after.1 > after.0 {
+                        new_ranges.push(after);
+                    }
                 }
+                ranges = new_ranges;
             }
+            ranges.append(&mut inter_ranges);
         }
-        for (seed_start, seed_range) in &seeds {
-            if *seed_start <= source && source <= (*seed_start + *seed_range) {
-                return location;
-            }
-        }
-        location += 1;
+        locations.push(ranges.iter().min_by_key(|(x, _)| *x).unwrap().0);
     }
+    return *locations.iter().min_by_key(|x| *x).unwrap();
 }
