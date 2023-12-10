@@ -11,7 +11,7 @@ fn main() {
     assert_eq!(part_two(example.lines().collect()), 467835);
     let part_two = part_two(input.lines().collect());
     println!("{}", part_two);
-
+    
     assert_eq!(part_one, 540025);
     assert_eq!(part_two, 84584891);
 }
@@ -31,6 +31,19 @@ fn search_number(chars: &mut Vec<char>, width: usize, x: usize, y: usize) -> i32
     number
 }
 
+fn get_neighbors() -> Vec<(i32, i32)>
+{
+    let mut neighbors: Vec<(i32, i32)> = Vec::new();
+    for y in -1..=1 {
+        for x in -1..=1 {
+            if x != 0 || y != 0 {
+                neighbors.push((x, y));
+            }
+        }
+    }
+    neighbors
+}
+
 fn part_one(input: Vec<&str>) -> i32
 {
     let height = input.len();
@@ -45,29 +58,12 @@ fn part_one(input: Vec<&str>) -> i32
     for y in 0..height {
         for x in 0..width {
             if chars[y * width + x] != '.' && !chars[y * width + x].is_digit(10) {
-                if y > 0 && x > 0 && chars[(y - 1) * width + (x - 1)].is_digit(10) {
-                    sum += search_number(&mut chars, width, x - 1, y - 1);
-                }
-                if y > 0 && chars[(y - 1) * width + x].is_digit(10) {
-                    sum += search_number(&mut chars, width, x, y - 1);
-                }
-                if y > 0 && x < width - 1 && chars[(y - 1) * width + (x + 1)].is_digit(10) {
-                    sum += search_number(&mut chars, width, x + 1, y - 1);
-                }
-                if x > 0 && chars[y * width + (x - 1)].is_digit(10) {
-                    sum += search_number(&mut chars, width, x - 1, y);
-                }
-                if x < width - 1 && chars[y * width + (x + 1)].is_digit(10) {
-                    sum += search_number(&mut chars, width, x + 1, y);
-                }
-                if y < height - 1 && x > 0 && chars[(y + 1) * width + (x - 1)].is_digit(10) {
-                    sum += search_number(&mut chars, width, x - 1, y + 1);
-                }
-                if y < height - 1 && chars[(y + 1) * width + x].is_digit(10) {
-                    sum += search_number(&mut chars, width, x, y + 1);
-                }
-                if y < height - 1 && x < width - 1 && chars[(y + 1) * width + (x + 1)].is_digit(10) {
-                    sum += search_number(&mut chars, width, x + 1, y + 1);
+                for neighbor in get_neighbors() {
+                    if y as i32 + neighbor.1 >= 0 && y as i32 + neighbor.1 < height as i32 && x as i32 + neighbor.0 >= 0 && x as i32 + neighbor.0 < width as i32 {
+                        if chars[((y as i32 + neighbor.1) * width as i32 + (x as i32 + neighbor.0)) as usize].is_digit(10) {
+                            sum += search_number(&mut chars, width, (x as i32 + neighbor.0) as usize, (y as i32 + neighbor.1) as usize);
+                        }
+                    }
                 }
             }
         }
@@ -91,37 +87,13 @@ fn part_two(input: Vec<&str>) -> i32
             if chars[y * width + x] == '*' {
                 let mut gear_ratio = 1;
                 let mut part_numbers = 0;
-                if y > 0 && x > 0 && chars[(y - 1) * width + (x - 1)].is_digit(10) {
-                    gear_ratio *= search_number(&mut chars, width, x - 1, y - 1);
-                    part_numbers += 1;
-                }
-                if y > 0 && chars[(y - 1) * width + x].is_digit(10) {
-                    gear_ratio *= search_number(&mut chars, width, x, y - 1);
-                    part_numbers += 1;
-                }
-                if y > 0 && x < width - 1 && chars[(y - 1) * width + (x + 1)].is_digit(10) {
-                    gear_ratio *= search_number(&mut chars, width, x + 1, y - 1);
-                    part_numbers += 1;
-                }
-                if x > 0 && chars[y * width + (x - 1)].is_digit(10) {
-                    gear_ratio *= search_number(&mut chars, width, x - 1, y);
-                    part_numbers += 1;
-                }
-                if x < width - 1 && chars[y * width + (x + 1)].is_digit(10) {
-                    gear_ratio *= search_number(&mut chars, width, x + 1, y);
-                    part_numbers += 1;
-                }
-                if y < height - 1 && x > 0 && chars[(y + 1) * width + (x - 1)].is_digit(10) {
-                    gear_ratio *= search_number(&mut chars, width, x - 1, y + 1);
-                    part_numbers += 1;
-                }
-                if y < height - 1 && chars[(y + 1) * width + x].is_digit(10) {
-                    gear_ratio *= search_number(&mut chars, width, x, y + 1);
-                    part_numbers += 1;
-                }
-                if y < height - 1 && x < width - 1 && chars[(y + 1) * width + (x + 1)].is_digit(10) {
-                    gear_ratio *= search_number(&mut chars, width, x + 1, y + 1);
-                    part_numbers += 1;
+                for neighbor in get_neighbors() {
+                    if y as i32 + neighbor.1 >= 0 && y as i32 + neighbor.1 < height as i32 && x as i32 + neighbor.0 >= 0 && x as i32 + neighbor.0 < width as i32 {
+                        if chars[((y as i32 + neighbor.1) * width as i32 + (x as i32 + neighbor.0)) as usize].is_digit(10) {
+                            gear_ratio *= search_number(&mut chars, width, (x as i32 + neighbor.0) as usize, (y as i32 + neighbor.1) as usize);
+                            part_numbers += 1;
+                        }
+                    }
                 }
                 if part_numbers == 2 {
                     sum += gear_ratio;
