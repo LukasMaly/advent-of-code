@@ -10,3 +10,4 @@
 * [Day 8: Haunted Wasteland](08.rs)
 * [Day 9: Mirage Maintenance](09.rs)
 * [Day 10: Pipe Maze](10.rs)
+* [Day 11: Cosmic Expansion](11.rs)
