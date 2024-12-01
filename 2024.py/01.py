@@ -12,20 +12,18 @@ class Puzzle(BasePuzzle):
 
     def part1(self, lines: list[str]) -> int:
         left, right = self.parse_input(lines)
-        left = sorted(left)
-        right = sorted(right)
-        distances = map(lambda l, r: abs(l - r), left, right)
-        distance = sum(distances)
-        return distance
+        left.sort()
+        right.sort()
+        return sum(abs(l - r) for l, r in zip(left, right))
 
     def part2(self, lines: list[str]) -> int:
         left, right = self.parse_input(lines)
+        left_counter = Counter(left)
+        right_counter = Counter(right)
         sim_score = 0
-        left = Counter(left)
-        right = Counter(right)
-        for l in left:
-            if l in right:
-                sim_score += l * left[l] * right[l]
+        for l in left_counter:
+            if l in right_counter:
+                sim_score += l * left_counter[l] * right_counter[l]
         return sim_score
 
     def parse_input(self, lines: list[str]) -> tuple[list[int], list[int]]:
