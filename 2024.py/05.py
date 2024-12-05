@@ -28,39 +28,37 @@ class Puzzle(BasePuzzle):
             while not self.is_correctly_ordered(update, rules):
                 for i in range(len(update) - 1):
                     found = False
-                    for rule in rules:
-                        if update[i] == rule[0]:
-                            if update[i+1] == rule[1]:
-                                found = True
-                                break
+                    if update[i] in rules:
+                        if update[i+1] in rules[update[i]]:
+                            found = True
                     if not found:
                         update[i], update[i+1] = update[i+1], update[i]
             corrected_updates.append(update)
         return self.middle_pages_sum(corrected_updates)
 
-    def parse_input(self, lines: list[str]) -> tuple[list[tuple[int, int]], list[list[int]]]:
-        rules = []
+    def parse_input(self, lines: list[str]) -> tuple[dict[int, list[int]], list[list[int]]]:
+        rules = {}
         updates = []
         for line in lines:
             if '|' in line:
                 x, y = line.split('|')
-                rules.append((int(x), int(y)))
+                x, y = int(x), int(y)
+                if x in rules:
+                    rules[x].append(y)
+                else:
+                    rules[x] = [y]
             elif ',' in line:
                 pages = line.split(',')
                 updates.append([int(p) for p in pages])
         return rules, updates
 
-    def is_correctly_ordered(self, update: list[int], rules: list[tuple[int, int]]) -> bool:
+    def is_correctly_ordered(self, update: list[int], rules: dict[int, list[int]]) -> bool:
         for i in range(len(update) - 1):
-            found = 0
-            for rule in rules:
-                if update[i] == rule[0]:
-                    for next_page in update[i+1:]:
-                        if next_page == rule[1]:
-                            found += 1
-                            break
-            if found != len(update) - i - 1:
+            if update[i] not in rules:
                 return False
+            for next_page in update[i+1:]:
+                if next_page not in rules[update[i]]:
+                    return False
         return True
 
     def middle_pages_sum(self, updates: list[list[int]]) -> int:
