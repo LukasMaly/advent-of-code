@@ -107,7 +107,7 @@ fn part2(path: []const u8) !u32 {
 
 pub fn main() !void {
     std.debug.assert(try part1("./examples/04.txt") == 13);
-    std.debug.print("{d}\n", .{try part1("./inputs/04.txt")});
+    std.debug.assert(try part1("./inputs/04.txt") == 1474);
     std.debug.assert(try part2("./examples/04.txt") == 43);
-    std.debug.print("{d}\n", .{try part2("./inputs/04.txt")});
+    std.debug.assert(try part2("./inputs/04.txt") == 8910);
 }

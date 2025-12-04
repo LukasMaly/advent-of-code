@@ -54,7 +54,7 @@ fn part2(path: []const u8) !u32 {
 
 pub fn main() !void {
     std.debug.assert(try part1("./examples/01.txt") == 3);
-    std.debug.print("{d}\n", .{try part1("./inputs/01.txt")});
+    std.debug.assert(try part1("./inputs/01.txt") == 1031);
     std.debug.assert(try part2("./examples/01.txt") == 6);
-    std.debug.print("{d}\n", .{try part2("./inputs/01.txt")});
+    std.debug.assert(try part2("./inputs/01.txt") == 5831);
 }
