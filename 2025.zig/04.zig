@@ -64,6 +64,7 @@ fn part2(path: []const u8) !u32 {
     var grid = try allocator.alloc(u8, (m + 2) * (n + 2));
     var removed = try allocator.alloc(u8, (m + 2) * (n + 2));
     defer allocator.free(grid);
+    defer allocator.free(removed);
     @memset(grid, 0);
     var row: usize = 1;
     while (try reader.interface.takeDelimiter('\n')) |line| {
