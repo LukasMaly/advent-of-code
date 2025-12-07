@@ -6,3 +6,4 @@
 * [Day 4: Printing Department](04.zig)
 * [Day 4: Cafeteria](05.zig)
 * [Day 6: Trash Compactor](06.zig)
+* [Day 7: Laboratories](07.zig)
