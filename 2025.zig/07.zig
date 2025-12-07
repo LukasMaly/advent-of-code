@@ -9,12 +9,9 @@ fn part1(path: []const u8) !u64 {
     defer file.close();
     var file_buffer: [4096]u8 = undefined;
     var reader = file.reader(&file_buffer);
-    var m: usize = 0;
-    var n: usize = 0;
-    while (try reader.interface.takeDelimiter('\n')) |line| {
-        if (m == 0) {
-            n = line.len;
-        }
+    const n = (try reader.interface.takeDelimiter('\n')).?.len;
+    var m: usize = 1;
+    while (try reader.interface.takeDelimiter('\n')) |_| {
         m += 1;
     }
     var diagram = try allocator.alloc(u8, m * n);
@@ -51,18 +48,15 @@ fn beam(x: usize, y: usize, m: usize, n: usize, diagram: []u8) u16 {
     return splits;
 }
 
-fn part2(path: []const u8) !u64 {
+fn part2(path: []const u8) ![2]u64 {
     const allocator = std.heap.page_allocator;
     const file = try std.fs.cwd().openFile(path, .{});
     defer file.close();
     var file_buffer: [4096]u8 = undefined;
     var reader = file.reader(&file_buffer);
-    var m: usize = 0;
-    var n: usize = 0;
-    while (try reader.interface.takeDelimiter('\n')) |line| {
-        if (m == 0) {
-            n = line.len;
-        }
+    const n = (try reader.interface.takeDelimiter('\n')).?.len;
+    var m: usize = 1;
+    while (try reader.interface.takeDelimiter('\n')) |_| {
         m += 1;
     }
     var diagram = try allocator.alloc(u8, m * n);
@@ -76,10 +70,14 @@ fn part2(path: []const u8) !u64 {
         @memcpy(diagram[(m * n)..((m + 1) * n)], line);
         m += 1;
     }
+    var splits: u16 = 0;
     counts[std.mem.indexOfScalar(u8, diagram[0..n], 'S').?] = 1;
     for (1..m) |y| {
         for (0..n) |x| {
             if (diagram[(y * n) + x] == '^') {
+                if (counts[((y - 1) * n) + x] > 0) {
+                    splits += 1;
+                }
                 counts[(y * n) + x - 1] += counts[((y - 1) * n) + x];
                 counts[(y * n) + x + 1] += counts[((y - 1) * n) + x];
             } else {
@@ -91,12 +89,14 @@ fn part2(path: []const u8) !u64 {
     for (0..n) |x| {
         sum += counts[((m - 1) * n) + x];
     }
-    return sum;
+    return .{ splits, sum };
 }
 
 pub fn main() !void {
     std.debug.assert(try part1("./examples/07.txt") == 21);
     std.debug.assert(try part1("./inputs/07.txt") == 1619);
-    std.debug.assert(try part2("./examples/07.txt") == 40);
-    std.debug.assert(try part2("./inputs/07.txt") == 23607984027985);
+    std.debug.assert((try part2("./examples/07.txt"))[0] == 21);
+    std.debug.assert((try part2("./inputs/07.txt"))[0] == 1619);
+    std.debug.assert((try part2("./examples/07.txt"))[1] == 40);
+    std.debug.assert((try part2("./inputs/07.txt"))[1] == 23607984027985);
 }
