@@ -7,3 +7,4 @@
 * [Day 4: Cafeteria](05.zig)
 * [Day 6: Trash Compactor](06.zig)
 * [Day 7: Laboratories](07.zig)
+* [Day 8: Playground](08.zig)

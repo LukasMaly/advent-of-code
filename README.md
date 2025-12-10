@@ -6,4 +6,4 @@
 | [2022](2022.jl/README.md)  | Julia    | 36 |
 | [2023](2023.rs/README.md)  | Rust     | 22 |
 | [2024](2024.py/README.md)  | Python   | 10 |
-| [2025](2025.zig/README.md) | Zig      | 14 |
+| [2025](2025.zig/README.md) | Zig      | 16 |
